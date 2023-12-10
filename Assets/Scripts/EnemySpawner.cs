@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private MineBehaviour _mine;
+    [SerializeField] private EnemyBehaviour _enemy;
     [SerializeField] private int _spawnFrequency;
 
     private SpawnPoint[] _spawnPoints;
@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
         {
             _currentSpawn = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
 
-            Instantiate(_mine, _currentSpawn.transform).SetDirection(Random.insideUnitCircle.normalized);
+            Instantiate(_enemy, _currentSpawn.transform).SetDirection(Random.insideUnitCircle.normalized);
 
             _timeLeft = 0;
         }

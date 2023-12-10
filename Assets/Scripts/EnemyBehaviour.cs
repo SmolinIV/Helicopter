@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MineBehaviour : MonoBehaviour
+public class EnemyBehaviour : MonoBehaviour
 {
     [SerializeField] private int _movingSpeed;
 
-    private Rigidbody2D _rigidbody;
     private Coroutine _growingCoroutine;
 
-    private Vector2 _direction;
+    private Helicopter _target;
     private float _creationScale;
     private float _normalScale;
 
@@ -20,9 +19,6 @@ public class MineBehaviour : MonoBehaviour
         transform.localScale = new Vector2(_creationScale, _creationScale);
 
         _growingCoroutine = StartCoroutine(Grow());
-
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _rigidbody.AddForce(_direction * _movingSpeed * Time.deltaTime);
     }
 
     private void OnValidate()
@@ -31,16 +27,7 @@ public class MineBehaviour : MonoBehaviour
             _movingSpeed = 1;
     }
 
-    private void OnBecameInvisible()
-    {
-        StopCoroutine(_growingCoroutine);
-        Destroy(gameObject);
-    }
-
-    public void SetDirection(Vector2 direction)
-    {
-        _direction = direction;
-    }
+    public void SetTarget(Helicopter target) => _target = target;
 
     private IEnumerator Grow()
     {
@@ -51,5 +38,4 @@ public class MineBehaviour : MonoBehaviour
             yield return null;
         }
     }
-
 }
