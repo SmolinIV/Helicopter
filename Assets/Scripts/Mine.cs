@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MineBehaviour : MonoBehaviour
+public class Mine : MonoBehaviour
 {
     [SerializeField] private int _movingSpeed;
 
@@ -27,8 +27,10 @@ public class MineBehaviour : MonoBehaviour
 
     private void OnValidate()
     {
-        if (_movingSpeed <= 0)
-            _movingSpeed = 1;
+        int minSpeed = 1;
+
+        if (_movingSpeed < minSpeed)
+            _movingSpeed = minSpeed;
     }
 
     private void OnBecameInvisible()

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private MineBehaviour _mine;
+    [SerializeField] private Mine _mine;
     [SerializeField] private int _spawnFrequency;
 
     private SpawnPoint[] _spawnPoints;
@@ -16,6 +16,14 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         _spawnPoints = GetComponentsInChildren<SpawnPoint>();
+    }
+
+    private void OnValidate()
+    {
+        int minSpawnFrequency = 1;
+
+        if (_spawnFrequency < minSpawnFrequency)
+            _spawnFrequency = minSpawnFrequency;
     }
 
     private void Update()
