@@ -22,14 +22,6 @@ public class Enemy : MonoBehaviour
         _growingCoroutine = StartCoroutine(Grow());
     }
 
-    private void OnValidate()
-    {
-        int minSpeed = 1;
-        
-        if (_movingSpeed < minSpeed)
-            _movingSpeed = minSpeed;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Helicopter>(out Helicopter target) == true)
