@@ -1,16 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private EnemyBehaviour _enemy;
-    [SerializeField] private int _spawnFrequency;
+    [SerializeField, Min(1)] private int _spawnFrequency;
 
     private SpawnPoint[] _spawnPoints;
-    private SpawnPoint _currentSpawn;
+
     private float _timeLeft;
 
     private void Start()
@@ -24,12 +19,16 @@ public class EnemySpawner : MonoBehaviour
 
         if (_timeLeft >= _spawnFrequency)
         {
-            _currentSpawn = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
-
-            Instantiate(_enemy, _currentSpawn.transform).SetDirection(Random.insideUnitCircle.normalized);
-
+            CreateNewEnemy();
             _timeLeft = 0;
         }
+    }
+
+    private void CreateNewEnemy()
+    {
+        SpawnPoint _currentSpawn = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
+        Enemy createdEnemy = Instantiate(_currentSpawn.GetEnemyType(), _currentSpawn.transform);
+        createdEnemy.SetTarget(_currentSpawn.GetTarget());
     }
 }
 
