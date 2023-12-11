@@ -25,19 +25,23 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Helicopter>(out Helicopter target) == true)
-        {
-            StopCoroutine(_growingCoroutine);
-            Destroy(gameObject);
-        }
+            DestroyObject();
+    }
+
+    private void OnBecameInvisible()
+    {
+        DestroyObject();
     }
 
     public void SetTarget(Helicopter target)
     {
+        float startMovingForce = 0.001f;
+
         _target = target;
         _directionToTarget = (_target.transform.position - transform.position).normalized;
 
         Rigidbody2D rigidbody2d = GetComponent<Rigidbody2D>();
-        rigidbody2d.AddForce(_directionToTarget * Time.deltaTime * _movingSpeed);
+        rigidbody2d.AddForce(_directionToTarget * startMovingForce * _movingSpeed);
     }
 
     private IEnumerator Grow()
@@ -48,5 +52,11 @@ public class Enemy : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void DestroyObject()
+    {
+        StopCoroutine(_growingCoroutine);
+        Destroy(gameObject);
     }
 }
